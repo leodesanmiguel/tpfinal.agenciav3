@@ -6,6 +6,7 @@
 package polo.logica;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -89,6 +90,21 @@ public class Empleado extends Persona implements Serializable {
 
     }
 
+    public Empleado(Date fechaIngreso, Puesto suPuesto, double sueldo
+            , Usuario usuario, String nombreP, String apellidoP
+            , String direccionP, int dni, Date fechaNacio
+            , String nacionalidad, String celular, String email) {
+        super(nombreP, apellidoP, direccionP, dni, fechaNacio
+                , nacionalidad, celular, email);
+        this.fechaIngreso = fechaIngreso;
+        this.suPuesto = suPuesto;
+        this.sueldo = sueldo;
+        this.usuario = usuario;
+    }
+    
+    
+    
+
     public Usuario getUsuario() {
         return usuario;
     }
@@ -160,7 +176,10 @@ public class Empleado extends Persona implements Serializable {
 
     @Override
     public String toString() {
-        return "Empleado{" + "fechaIngreso=" + fechaIngreso + ", suPuesto=" + suPuesto + ", sueldo=" + sueldo + '}';
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); 
+        String alta = sdf.format(fechaIngreso);
+        return "Alta: " +  fechaIngreso + "  Puesto:" + suPuesto.getCargo() + " (" + sueldo + ")"
+                + "\n apyno: " + super.getApellidoP() + ", " + super.getNombreP() + " (" + super.getDni() + ")" ;
     }
 
 }

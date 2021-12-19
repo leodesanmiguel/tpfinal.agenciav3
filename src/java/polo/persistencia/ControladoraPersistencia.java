@@ -199,7 +199,7 @@ public class ControladoraPersistencia {
      *
      * @param emple
      * @param usua
-     * @return 
+     * @return
      */
     public Usuario crearEmpleado(Empleado emple, Usuario usua) {
         Usuario usr = new Usuario();
@@ -243,8 +243,11 @@ public class ControladoraPersistencia {
 
                 List<Usuario> uss = userJPA.findUsuarioEntities();
                 for (Usuario u : uss) {
+                    System.out.println("\n usuario: " + u
+                            + "\n --> " + usua);
                     if (usua.equals(u)) {
                         usr = u;
+                        System.out.println("Encontro usuario" + u);
                     }
                 }
                 return usr;
@@ -284,15 +287,34 @@ public class ControladoraPersistencia {
      */
     public List<Usuario> traerUsuarios(String usr) {
         List<Usuario> jefes = new ArrayList<>();
+        
         List<Usuario> uss = userJPA.findUsuarioEntities();
-        uss.forEach(u -> {
+        for (Usuario u : uss){
             Empleado em = u.getEmpleado();
+            
             Puesto pu = em.getSuPuesto();
-            if (pu.getCargo().equals(usr)) {
+            if (usr.equals(pu.getCargo().toString())) {
                 jefes.add(u);
             }
-        });
+        }
+        
         return jefes;
+    }
+
+    public Empleado traerAdmin(Empleado empleado) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Puesto traerPuesto(String admin) {
+        List<Puesto> pss = puestJPA.findPuestoEntities();
+        System.out.println("\n Buscando puesto en ctrlJPA ( " + admin + " )\n");
+        for (Puesto p : pss) {
+            System.out.println("encontro: " + p.getCargo().toString());
+            if (admin.equals(p.getCargo().toString())) {
+                return p;
+            }
+        }
+        return null;
     }
 
 }

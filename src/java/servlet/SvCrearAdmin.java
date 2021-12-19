@@ -58,25 +58,31 @@ public class SvCrearAdmin extends HttpServlet {
         usua.setAltaU(Date.from(fe.atStartOfDay(dZ).toInstant()));
         usua.setNombreUsr((String) request.getSession().getAttribute("user"));
         usua.setPassword((String) request.getSession().getAttribute("pass"));
-
-        Usuario usr = ctrl.crearAdmin(pers, "admin", usua);
-        Empleado empl = usr.getEmpleado();
         
-        System.out.println("Empleado traido a SvCrearAdmin " + empl);
         
-        request.getSession().setAttribute("user", usr.getNombreUsr());
-        request.getSession().setAttribute("pass", usr.getPassword());
+        Usuario usr = ctrl.crearAdmin(pers, "ADMIN", usua);
 
-        request.getSession().setAttribute("nombrePer", empl.getNombreP());
-        request.getSession().setAttribute("apellidoPer", empl.getApellidoP());
-        request.getSession().setAttribute("domicilioPer", empl.getDireccionP());
-        request.getSession().setAttribute("dniPer", empl.getDni());
-        request.getSession().setAttribute("nacionalPer", empl.getNacionalidad());
-        request.getSession().setAttribute("celularPer", empl.getCelular());
-        request.getSession().setAttribute("emailPer", empl.getEmail());
+        
+            Empleado empl = usr.getEmpleado();
 
+            System.out.println("Empleado traido a SvCrearAdmin " + empl);
+
+            request.getSession().setAttribute("user", usr.getNombreUsr());
+            request.getSession().setAttribute("pass", usr.getPassword());
+
+            request.getSession().setAttribute("nombrePer", empl.getNombreP());
+            request.getSession().setAttribute("apellidoPer", empl.getApellidoP());
+            request.getSession().setAttribute("domicilioPer", empl.getDireccionP());
+            request.getSession().setAttribute("dniPer", empl.getDni());
+            request.getSession().setAttribute("nacionalPer", empl.getNacionalidad());
+            request.getSession().setAttribute("celularPer", empl.getCelular());
+            request.getSession().setAttribute("emailPer", empl.getEmail());
+
+            //response.sendRedirect("mostrarAdmin.jsp");
+        
+        System.out.println("SE CORTÓ PORQUE NO ENCONTRÓ EL USUARIO");
+        //response.sendRedirect("noverificado.jsp");
         response.sendRedirect("mostrarAdmin.jsp");
-
     }
 
     @Override

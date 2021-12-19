@@ -1,5 +1,8 @@
 package polo.logica;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import polo.persistencia.ControladoraPersistencia;
 
@@ -37,10 +40,12 @@ public class Controladora {
 
     public Usuario crearAdmin(Persona pers, String admin, Usuario usua) {
 
-        System.out.println("\n++++++ Creando ADMIN +++++++++++++++");
+        System.out.println("\n------- Creando "+ admin +" ----------------");
         System.out.println("\n ----> Peresona  que viene..: " + pers);
         System.out.println("\n       Usuario que viene....: " + usua);
 
+        
+        
         Empleado emple = new Empleado();
         emple.setApellidoP(pers.getApellidoP());
         emple.setCelular(pers.getCelular());
@@ -48,20 +53,35 @@ public class Controladora {
         emple.setDni(pers.getDni());
         emple.setEmail(pers.getEmail());
         emple.setNacionalidad(pers.getNacionalidad());
-        emple.setFechaIngreso(pers.getFechaNacio());
+        emple.setFechaIngreso(usua.getAltaU());
         emple.setNombreP(pers.getNombreP());
-        // returno el id del usuario
+        
+        Puesto suP = ctrlJPA.traerPuesto(admin);
+        System.out.println("Encontrol este puesto: " + suP);
+        emple.setSuPuesto(suP);
+        
+        // retorna el usuario completo
+        System.out.println("\n --->  desde la Controladora:\n"
+                + "empleado listo para crar:\n " + emple);
+
         return ctrlJPA.crearEmpleado(emple, usua);
 
     }
 
     public List<Usuario> traerJefes() {
         // En este caso trae los JEFES
-        return ctrlJPA.traerUsuarios("Jefe");
+        return ctrlJPA.traerUsuarios("JEFE");
     }
 
     public Empleado traeAdmin(Usuario usr) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        return ctrlJPA.traerAdmin(usr.getEmpleado());
+    }
+
+    public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 
 }
